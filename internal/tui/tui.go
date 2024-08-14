@@ -21,6 +21,15 @@ type TsarTUI struct {
 	matches      []fileMatch
 }
 
+func init() {
+	tview.Borders.HorizontalFocus = tview.BoxDrawingsHeavyHorizontal
+	tview.Borders.VerticalFocus = tview.BoxDrawingsHeavyVertical
+	tview.Borders.TopLeftFocus = tview.BoxDrawingsHeavyDownAndRight
+	tview.Borders.TopRightFocus = tview.BoxDrawingsHeavyDownAndLeft
+	tview.Borders.BottomLeftFocus = tview.BoxDrawingsHeavyUpAndRight
+	tview.Borders.BottomRightFocus = tview.BoxDrawingsHeavyUpAndLeft
+}
+
 func NewApp(files []string) *TsarTUI {
 	app := TsarTUI{Application: tview.NewApplication(), projectFiles: files}
 

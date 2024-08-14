@@ -44,12 +44,17 @@ func NewApp(files []string) *TsarTUI {
 	app.output = tview.NewTextView()
 	app.output.
 		SetDynamicColors(true).
-		SetTitle("Output").
+		SetTitle("Preview").
 		SetBorder(true)
 
 	app.searchInput = app.newSearchInput()
 	app.replaceInput = app.newReplaceInput()
 	app.filesList = app.newFilesList()
+
+	helpText := tview.
+		NewTextView().
+		SetDynamicColors(true).
+		SetText(`[#626262]tab: [#4A4A4A]Next Panel[-]    [#626262]shift+tab: [#4A4A4A]Previous Panel[-]    [#626262]space / enter: [#4A4A4A]Confirm Replacement[-]`)
 
 	sidebar := tview.NewFlex().
 		SetDirection(tview.FlexColumnCSS).
@@ -57,10 +62,15 @@ func NewApp(files []string) *TsarTUI {
 		AddItem(app.replaceInput, 3, 0, false).
 		AddItem(app.filesList, 0, 1, false)
 
-	layout := tview.NewFlex().
+	mainLayout := tview.NewFlex().
 		SetDirection(tview.FlexRowCSS).
-		AddItem(sidebar, 65, 0, true).
+		AddItem(sidebar, 88, 0, true).
 		AddItem(app.output, 0, 1, false)
+
+	layout := tview.NewFlex().
+		SetDirection(tview.FlexColumnCSS).
+		AddItem(mainLayout, 0, 1, true).
+		AddItem(helpText, 1, 0, false)
 
 	app.SetRoot(layout, true)
 	return &app

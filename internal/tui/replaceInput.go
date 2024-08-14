@@ -10,9 +10,9 @@ func (t *TsarTUI) newReplaceInput() *tview.InputField {
 	input.
 		SetFieldBackgroundColor(tcell.ColorDefault).
 		SetTitle("Replace").
-		SetTitleAlign(tview.AlignLeft).
-		SetBorder(true)
+		SetTitleAlign(tview.AlignLeft)
 
+	enableBorderColors(input.Box)
 	input.SetChangedFunc(t.onReplaceChange)
 	input.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Key() {

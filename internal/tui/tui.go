@@ -1,6 +1,7 @@
 package tui
 
 import (
+	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 	"github.com/tvaintrob/tsar/internal/search"
 )
@@ -22,12 +23,19 @@ type TsarTUI struct {
 }
 
 func init() {
-	tview.Borders.HorizontalFocus = tview.BoxDrawingsHeavyHorizontal
 	tview.Borders.VerticalFocus = tview.BoxDrawingsHeavyVertical
+	tview.Borders.HorizontalFocus = tview.BoxDrawingsHeavyHorizontal
 	tview.Borders.TopLeftFocus = tview.BoxDrawingsHeavyDownAndRight
 	tview.Borders.TopRightFocus = tview.BoxDrawingsHeavyDownAndLeft
 	tview.Borders.BottomLeftFocus = tview.BoxDrawingsHeavyUpAndRight
 	tview.Borders.BottomRightFocus = tview.BoxDrawingsHeavyUpAndLeft
+}
+
+func enableBorderColors(b *tview.Box) {
+	b.SetBorder(true).
+		SetBorderColor(tcell.ColorWhite).
+		SetFocusFunc(func() { b.SetBorderColor(tcell.ColorYellow) }).
+		SetBlurFunc(func() { b.SetBorderColor(tcell.ColorWhite) })
 }
 
 func NewApp(files []string) *TsarTUI {

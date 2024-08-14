@@ -16,9 +16,9 @@ func (t *TsarTUI) newSearchInput() *tview.InputField {
 		SetChangedFunc(t.onSearchChange).
 		SetFieldBackgroundColor(tcell.ColorDefault).
 		SetTitle("Search").
-		SetTitleAlign(tview.AlignLeft).
-		SetBorder(true)
+		SetTitleAlign(tview.AlignLeft)
 
+	enableBorderColors(input.Box)
 	input.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Key() {
 		case tcell.KeyTab:

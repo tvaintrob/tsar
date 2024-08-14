@@ -16,9 +16,9 @@ func (t *TsarTUI) newFilesList() *tview.List {
 	list.
 		ShowSecondaryText(false).
 		SetTitle("Files").
-		SetTitleAlign(tview.AlignLeft).
-		SetBorder(true)
+		SetTitleAlign(tview.AlignLeft)
 
+	enableBorderColors(list.Box)
 	list.SetChangedFunc(t.onFileSelected)
 	list.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Key() {

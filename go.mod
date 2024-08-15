@@ -1,6 +1,6 @@
 module github.com/tvaintrob/tsar
 
-go 1.22.0
+go 1.22.6
 
 require (
 	github.com/fatih/color v1.17.0

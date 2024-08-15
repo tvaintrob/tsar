@@ -63,6 +63,5 @@ func (t *TsarTUI) renderDiff(file string, matches []search.Match) {
 
 	cmd.Stdin = bytes.NewReader(content)
 	cmd.Stdout = tview.ANSIWriter(t.output)
-	cmd.Run()
-
+	_ = cmd.Run()
 }

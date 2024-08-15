@@ -11,6 +11,13 @@ import (
 	"github.com/tvaintrob/tsar/internal/search"
 )
 
+var hasDelta bool
+
+func init() {
+	_, err := exec.LookPath("delta")
+	hasDelta = err == nil
+}
+
 func (t *TsarTUI) newFilesList() *tview.List {
 	list := tview.NewList()
 	list.
@@ -41,7 +48,6 @@ func (t *TsarTUI) onFileSelected(index int, main string, secondary string, short
 }
 
 func (t *TsarTUI) renderDiff(file string, matches []search.Match) {
-	_, _, width, _ := t.output.GetInnerRect()
 	t.output.Clear()
 	content, err := os.ReadFile(file)
 	if err != nil {
@@ -49,8 +55,12 @@ func (t *TsarTUI) renderDiff(file string, matches []search.Match) {
 	}
 
 	content = matches[0].Pattern.ReplaceAll(content, []byte(t.replaceInput.GetText()))
+	cmd := exec.Command("diff", "--color=always", "-u", file, "-")
+	if hasDelta {
+		_, _, width, _ := t.output.GetInnerRect()
+		cmd = exec.Command("delta", "--width", strconv.Itoa(width), file, "-")
+	}
 
-	cmd := exec.Command("delta", "--width", strconv.Itoa(width), file, "-")
 	cmd.Stdin = bytes.NewReader(content)
 	cmd.Stdout = tview.ANSIWriter(t.output)
 	cmd.Run()

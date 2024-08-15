@@ -38,7 +38,7 @@ func enableBorderColors(b *tview.Box) {
 		SetBlurFunc(func() { b.SetBorderColor(tcell.ColorWhite) })
 }
 
-func NewApp(files []string) *TsarTUI {
+func NewApp(files []string, pattern, replace string) *TsarTUI {
 	app := TsarTUI{Application: tview.NewApplication(), projectFiles: files}
 
 	app.output = tview.NewTextView()
@@ -47,8 +47,8 @@ func NewApp(files []string) *TsarTUI {
 		SetTitle("Preview").
 		SetBorder(true)
 
-	app.searchInput = app.newSearchInput()
-	app.replaceInput = app.newReplaceInput()
+	app.searchInput = app.newSearchInput(pattern)
+	app.replaceInput = app.newReplaceInput(replace)
 	app.filesList = app.newFilesList()
 
 	helpText := tview.
@@ -73,5 +73,10 @@ func NewApp(files []string) *TsarTUI {
 		AddItem(helpText, 1, 0, false)
 
 	app.SetRoot(layout, true)
+
+	if len(pattern) > 0 {
+		app.onSearchChange(pattern)
+	}
+
 	return &app
 }

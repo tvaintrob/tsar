@@ -10,8 +10,8 @@ import (
 	"github.com/tvaintrob/tsar/internal/utils"
 )
 
-func (t *TsarTUI) newSearchInput() *tview.InputField {
-	input := tview.NewInputField()
+func (t *TsarTUI) newSearchInput(initialValue string) *tview.InputField {
+	input := tview.NewInputField().SetText(initialValue)
 	input.
 		SetChangedFunc(t.onSearchChange).
 		SetFieldBackgroundColor(tcell.ColorDefault).

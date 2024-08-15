@@ -27,7 +27,7 @@ func main() {
 				return err
 			}
 
-			tuiApp := tui.NewApp(files)
+			tuiApp := tui.NewApp(files, ctx.String("pattern"), ctx.String("replace"))
 			return tuiApp.Run()
 		},
 	}

@@ -5,8 +5,8 @@ import (
 	"github.com/rivo/tview"
 )
 
-func (t *TsarTUI) newReplaceInput() *tview.InputField {
-	input := tview.NewInputField()
+func (t *TsarTUI) newReplaceInput(initialValue string) *tview.InputField {
+	input := tview.NewInputField().SetText(initialValue)
 	input.
 		SetFieldBackgroundColor(tcell.ColorDefault).
 		SetTitle("Replace").

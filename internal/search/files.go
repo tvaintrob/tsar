@@ -17,7 +17,22 @@ func ListFiles(root string) ([]string, error) {
 	if err != nil {
 		return listOsFiles(root)
 	}
-	return listGitFiles(repo)
+
+	tree, err := repo.Worktree()
+	if err != nil {
+		return listOsFiles(root)
+	}
+
+	status, err := tree.Status()
+	if err != nil {
+		return listOsFiles(root)
+	}
+
+	if status.IsClean() {
+		return listGitFiles(repo)
+	}
+
+	return listOsFiles(root)
 }
 
 func listGitFiles(repo *git.Repository) ([]string, error) {

@@ -39,6 +39,30 @@ func (t *TsarTUI) newFilesList() *tview.List {
 		return event
 	})
 
+	list.SetSelectedFunc(func(index int, _, _ string, _ rune) {
+		fileMatch := t.matches[index]
+		content, err := os.ReadFile(fileMatch.file)
+		if err != nil {
+			panic(err)
+		}
+
+		match := fileMatch.matches[0]
+		content = match.Pattern.ReplaceAll(content, []byte(t.replaceInput.GetText()))
+
+		finfo, err := os.Stat(fileMatch.file)
+		if err != nil {
+			panic(err)
+		}
+
+		if err := os.WriteFile(fileMatch.file, content, finfo.Mode()); err != nil {
+			panic(err)
+		}
+
+		// refresh the list
+		t.output.Clear()
+		t.onSearchChange(t.searchInput.GetText())
+	})
+
 	return list
 }
 

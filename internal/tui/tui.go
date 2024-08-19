@@ -54,7 +54,7 @@ func NewApp(files []string, pattern, replace string) *TsarTUI {
 	helpText := tview.
 		NewTextView().
 		SetDynamicColors(true).
-		SetText(`[#626262]tab: [#4A4A4A]Next Panel[-]    [#626262]shift+tab: [#4A4A4A]Previous Panel[-]    [#626262]space / enter: [#4A4A4A]Confirm Replacement[-]`)
+		SetText(`[#626262]esc: [#4A4A4A]Quit[-]    [#626262]tab: [#4A4A4A]Next Panel[-]    [#626262]shift+tab: [#4A4A4A]Previous Panel[-]    [#626262]space / enter: [#4A4A4A]Confirm Replacement[-]`)
 
 	sidebar := tview.NewFlex().
 		SetDirection(tview.FlexColumnCSS).
@@ -77,6 +77,15 @@ func NewApp(files []string, pattern, replace string) *TsarTUI {
 	if len(pattern) > 0 {
 		app.onSearchChange(pattern)
 	}
+
+	app.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		switch event.Key() {
+		case tcell.KeyEscape:
+			app.Stop()
+			return nil
+		}
+		return event
+	})
 
 	return &app
 }

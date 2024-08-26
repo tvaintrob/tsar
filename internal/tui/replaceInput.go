@@ -31,7 +31,9 @@ func (t *TsarTUI) newReplaceInput(initialValue string) *tview.InputField {
 
 func (t *TsarTUI) onReplaceChange(text string) {
 	fileIndex := t.filesList.GetCurrentItem()
-	item := t.matches[fileIndex]
 
-	t.renderDiff(item.file, item.matches)
+	if len(t.matches) > fileIndex {
+		item := t.matches[fileIndex]
+		t.renderDiff(item.file, item.matches)
+	}
 }

@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/go-git/go-git/v5"
+	"github.com/tvaintrob/tsar/internal/utils"
 )
 
 // ListFiles returns a list of available files for searching
@@ -66,12 +67,32 @@ func listGitFiles(repo *git.Repository) ([]string, error) {
 
 func listOsFiles(root string) ([]string, error) {
 	var files []string
+	ignoredPatterns := []string{
+		".git",
+		"venv",
+		".venv",
+		".direnv",
+		"node_modules",
+	}
+
 	err := filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
+
+		if info.IsDir() {
+			for _, dir := range ignoredPatterns {
+				if info.Name() == dir {
+					return filepath.SkipDir
+				}
+			}
+		}
+
 		if !info.IsDir() {
-			files = append(files, path)
+			isBinary, err := utils.IsBinary(path)
+			if err == nil && !isBinary {
+				files = append(files, path)
+			}
 		}
 		return nil
 	})

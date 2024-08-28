@@ -77,3 +77,8 @@ run: build
 .PHONY: push
 push: tidy audit no-dirty
 	git push
+
+## release: release a new version
+.PHONY: release
+release: tidy audit no-dirty
+	goreleaser release --clean

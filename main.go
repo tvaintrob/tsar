@@ -9,12 +9,15 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+var version string
+
 func main() {
 	app := &cli.App{
 		Name:            "tsar",
 		Usage:           "terminal search and replace",
 		Suggest:         true,
 		HideHelpCommand: true,
+		Version:         version,
 		Flags: []cli.Flag{
 			&cli.StringFlag{Name: "dir", Value: ".", Aliases: []string{"d"}, Usage: "directory root to operate on"},
 			&cli.StringFlag{Name: "pattern", Aliases: []string{"p"}, Usage: "initial search pattern"},

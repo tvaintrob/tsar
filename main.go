@@ -14,7 +14,6 @@ var version string = "devel"
 
 func main() {
 	if info, ok := debug.ReadBuildInfo(); ok && info.Main.Version != "(devel)" {
-        fmt.Printf("debug info version %s\n", info.Main.Version)
 		version = info.Main.Version
 	}
 

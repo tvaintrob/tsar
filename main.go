@@ -3,15 +3,21 @@ package main
 import (
 	"fmt"
 	"os"
+	"runtime/debug"
 
 	"github.com/tvaintrob/tsar/internal/search"
 	"github.com/tvaintrob/tsar/internal/tui"
 	"github.com/urfave/cli/v2"
 )
 
-var version string
+var version string = "devel"
 
 func main() {
+	if info, ok := debug.ReadBuildInfo(); ok && info.Main.Version != "(devel)" {
+        fmt.Printf("debug info version %s\n", info.Main.Version)
+		version = info.Main.Version
+	}
+
 	app := &cli.App{
 		Name:            "tsar",
 		Usage:           "terminal search and replace",
